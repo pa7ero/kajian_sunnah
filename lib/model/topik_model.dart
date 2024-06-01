@@ -4,21 +4,23 @@
 
 import 'dart:convert';
 
-Topik topikFromJson(String str) => Topik.fromJson(json.decode(str));
+List<Topik> topikFromJson(String str) =>
+    List<Topik>.from(json.decode(str).map((x) => Topik.fromJson(x)));
 
-String topikToJson(Topik data) => json.encode(data.toJson());
+String topikToJson(List<Topik> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Topik {
-  int? id;
-  String? name;
-  dynamic description;
-  dynamic parent;
+  final int? id;
+  final String? name;
+  final dynamic description;
+  final dynamic parent;
 
   Topik({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.parent,
+    this.id,
+    this.name,
+    this.description,
+    this.parent,
   });
 
   factory Topik.fromJson(Map<String, dynamic> json) => Topik(

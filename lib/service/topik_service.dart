@@ -1,18 +1,32 @@
 import 'package:dio/dio.dart';
+import 'package:kajian_sunnah/model/topik_model.dart';
 
 class TopikService {
   final Dio _dio = Dio();
 
-  Future<List> get() async {
-    var response = await _dio.get(
-      'https://stackovercode.my.id/api/v1/posts/topics',
-      options: Options(
-        headers: {'Accept': 'application/json'},
-      ),
-    );
-
-    Map obj = response.data;
-    return obj['tags'];
+  Future<List<Topik>> get() async {
+    try {
+      var response = await _dio.get(
+        'https://stackovercode.my.id/api/v1/posts/topics',
+        options: Options(
+          headers: {'Accept': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200) {
+        var data = response.data['result']['tags'];
+        if (data is List) {
+          return data.map((e) => Topik.fromJson(e)).toList();
+        } else {
+          throw Exception('Data yang diterima bukan list');
+        }
+      } else {
+        throw Exception(
+            'Gagal memuat topik dengan status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching topics: ${e.toString()}');
+      return [];
+    }
   }
 
   Future create({
@@ -36,7 +50,7 @@ class TopikService {
         });
 
     Map obj = response.data;
-    return obj['tags']['parent_id'];
+    return Topik.fromJson(obj['result']['tags']);
   }
 
   Future update({
@@ -60,7 +74,7 @@ class TopikService {
         });
 
     Map obj = response.data;
-    return obj['tags'];
+    return Topik.fromJson(obj['result']['tags']);
   }
 
   Future delete() async {

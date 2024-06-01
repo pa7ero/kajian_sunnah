@@ -5,6 +5,7 @@ import 'package:kajian_sunnah/home/auth_page/register.dart';
 import 'package:kajian_sunnah/home/home_page/home.dart';
 import 'package:kajian_sunnah/service/auth_service.dart';
 import 'package:kajian_sunnah/service/topik_service.dart';
+import 'package:kajian_sunnah/service/ustadz_service.dart';
 // import 'package:kajian_sunnah/service/topik_service.dart';
 
 class LoginError extends StatefulWidget {
@@ -44,6 +45,7 @@ class loginView extends StatelessWidget {
               MaterialPageRoute(
                   builder: (context) => Home(
                         topikService: TopikService(),
+                        ustadzService: UstadzService(),
                       )),
             );
           } else if (state is LoginFailure) {

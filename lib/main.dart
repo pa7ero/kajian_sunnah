@@ -9,6 +9,7 @@ import 'package:kajian_sunnah/home/home_page/home.dart';
 import 'package:kajian_sunnah/home/home_page/module_post.dart';
 import 'package:kajian_sunnah/home/home_page/notif.dart';
 import 'package:kajian_sunnah/home/home_page/profile.dart';
+import 'package:kajian_sunnah/service/ustadz_service.dart';
 import 'package:kajian_sunnah/service/topik_service.dart';
 
 void main() {
@@ -40,6 +41,7 @@ class _MyWidgetState extends State<MyWidget> {
   final List<Widget> _pages = [
     Home(
       topikService: TopikService(),
+      ustadzService: UstadzService(),
     ),
     Bookmark(),
     ModulePost(),
