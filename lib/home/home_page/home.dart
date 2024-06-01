@@ -238,7 +238,6 @@ class HomeView extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemCount: state.ustadz.length,
                           itemBuilder: (context, index) {
-                            // ignore: unused_local_variable
                             final ustadz = state.ustadz[index];
 
                             return Padding(
@@ -394,14 +393,9 @@ class HomeView extends StatelessWidget {
                               iconSize: 25,
                               style: IconButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                    // Membuat bentuk tombol menjadi kotak
-                                    borderRadius: BorderRadius.circular(
-                                        8) // Sudut bulat 0 untuk bentuk kotak sempurna
-                                    ),
-                                backgroundColor: Colors
-                                    .grey[200], // Warna latar belakang tombol
-                                padding: EdgeInsets.all(
-                                    3), // Padding di dalam tombol
+                                    borderRadius: BorderRadius.circular(8)),
+                                backgroundColor: Colors.grey[200],
+                                padding: EdgeInsets.all(3),
                               ),
                               onPressed: () {},
                               icon: Icon(Icons.bookmark),
