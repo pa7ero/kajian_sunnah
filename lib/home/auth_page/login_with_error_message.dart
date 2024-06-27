@@ -4,9 +4,12 @@ import 'package:kajian_sunnah/home/auth_page/bloc/login_bloc.dart';
 import 'package:kajian_sunnah/home/auth_page/register.dart';
 import 'package:kajian_sunnah/home/home_page/home.dart';
 import 'package:kajian_sunnah/service/auth_service.dart';
+import 'package:kajian_sunnah/service/category_service.dart';
+// import 'package:kajian_sunnah/service/shared_pref_service.dart';
 import 'package:kajian_sunnah/service/topik_service.dart';
 import 'package:kajian_sunnah/service/ustadz_service.dart';
-// import 'package:kajian_sunnah/service/topik_service.dart';
+import 'package:kajian_sunnah/widget/E_button.dart';
+import 'package:kajian_sunnah/widget/mod_textfield.dart';
 
 class LoginError extends StatefulWidget {
   const LoginError({Key? key}) : super(key: key);
@@ -31,7 +34,7 @@ class loginView extends StatelessWidget {
   loginView({
     super.key,
   });
-  final bool _obsecureText = true;
+
   @override
   Widget build(BuildContext context) {
     final TextEditingController emailController = TextEditingController();
@@ -46,6 +49,7 @@ class loginView extends StatelessWidget {
                   builder: (context) => Home(
                         topikService: TopikService(),
                         ustadzService: UstadzService(),
+                        categoryService: CategoryService(),
                       )),
             );
           } else if (state is LoginFailure) {
@@ -103,102 +107,41 @@ class loginView extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 40),
-                          Container(
-                            width: 340,
-                            height: 40,
-                            child: TextField(
-                              controller: emailController,
-                              textAlignVertical: TextAlignVertical.bottom,
-                              decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  borderSide:
-                                      BorderSide(color: Colors.green, width: 2),
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Enter your username or email',
-                                // errorText: state is LoginFailure &&
-                                //         state.error.contains('Email')
-                                //     ? state.error
-                                //     : null,
-                              ),
-                              showCursor: true,
-                            ),
+                          ModTextField(
+                            controller: emailController,
+                            hintText: 'Enter your username or email',
+                            colborderside:
+                                BorderSide(color: Colors.red, width: 2),
                           ),
                           SizedBox(height: 15),
-                          Container(
-                            width: 340,
-                            height: 40,
-                            child: TextField(
-                              controller: passwordController,
-                              textAlignVertical: TextAlignVertical.bottom,
-                              obscureText: _obsecureText,
-                              decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide:
-                                      BorderSide(color: Colors.red, width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  borderSide:
-                                      BorderSide(color: Colors.green, width: 2),
-                                ),
-                                suffixIcon: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(_obsecureText
-                                        ? Icons.remove_red_eye
-                                        : Icons.visibility_off)),
-                                filled: true,
-                                fillColor: Colors.white,
-                                // errorText: state is LoginFailure &&
-                                //         state.error.contains('Password')
-                                //     ? state.error
-                                //     : null,
-                                hintText: 'Enter your password',
-                              ),
-                              showCursor: true,
-                            ),
+                          ModTextField(
+                            controller: passwordController,
+                            hintText: 'Enter your username or email',
+                            obscureText: true,
+                            colborderside:
+                                BorderSide(color: Colors.red, width: 2),
                           ),
                           SizedBox(height: 10),
-                          Text('email atau password salah!'),
+                          Text(
+                            'email atau password salah!',
+                            style: TextStyle(color: Colors.red),
+                          ),
                           SizedBox(
                             height: 15,
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              fixedSize: Size(340, 40),
-                              backgroundColor: Colors.blue,
-                            ),
-                            onPressed: () {
+                          Ebutton(
+                            text: 'Login',
+                            txtcolor: Colors.white,
+                            btncolor: Colors.blue,
+                            onpress: () {
                               context.read<LoginBloc>().add(
                                     LoginButtonPressed(
                                       email: emailController.text,
                                       password: passwordController.text,
                                     ),
+                                    //add Getuser
                                   );
                             },
-                            child: Text(
-                              'Login',
-                              style: TextStyle(color: Colors.white),
-                            ),
                           ),
                           SizedBox(
                             height: 10,

@@ -37,3 +37,22 @@ final class UstadzError extends UstadzState {
 
   get message => null;
 }
+
+//====================================BloC Category State=======================
+
+sealed class CategoryState {}
+
+final class CategoryInitial extends CategoryState {}
+
+final class CategoryLoading extends CategoryState {}
+
+final class CategoryLoaded extends CategoryState {
+  final List<Category> category;
+  CategoryLoaded(this.category);
+}
+
+final class CategoryError extends CategoryState {
+  CategoryError(String s);
+
+  get message => null;
+}

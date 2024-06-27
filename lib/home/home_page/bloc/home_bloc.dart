@@ -1,5 +1,8 @@
+// import 'package:flutter/foundation.dart';
 import 'package:kajian_sunnah/model/topik_model.dart';
 import 'package:kajian_sunnah/model/ustadz_model.dart';
+import 'package:kajian_sunnah/model/category_model.dart';
+import 'package:kajian_sunnah/service/category_service.dart';
 import 'package:kajian_sunnah/service/ustadz_service.dart';
 import 'package:kajian_sunnah/service/topik_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +55,32 @@ class UstadzBloc extends Bloc<UstadzEvent, UstadzState> {
       }
     } catch (e) {
       emit(UstadzError('Terjadi kesalahan saat memuat data: ${e.toString()}'));
+    }
+  }
+}
+
+//====================================BloC Category Bloc=======================
+
+class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
+  final CategoryService categoryService;
+
+  CategoryBloc(this.categoryService) : super(CategoryInitial()) {
+    on<FetchCategory>(_onFetchCategory);
+  }
+
+  Future<void> _onFetchCategory(
+      FetchCategory event, Emitter<CategoryState> emit) async {
+    emit(CategoryLoading());
+    try {
+      final result = await categoryService.get();
+      if (result.isNotEmpty) {
+        emit(CategoryLoaded(result));
+      } else {
+        emit(CategoryError('Tidak ada data yang ditemukan.'));
+      }
+    } catch (e) {
+      emit(
+          CategoryError('Terjadi kesalahan saat memuat data: ${e.toString()}'));
     }
   }
 }

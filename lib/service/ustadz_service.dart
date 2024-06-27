@@ -21,10 +21,10 @@ class UstadzService {
         }
       } else {
         throw Exception(
-            'Gagal memuat topik dengan status code: ${response.statusCode}');
+            'Gagal memuat ustadz dengan status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error fetching topics: ${e.toString()}');
+      print('Error fetching ustadz: ${e.toString()}');
       return [];
     }
   }

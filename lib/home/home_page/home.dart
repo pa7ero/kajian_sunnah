@@ -4,14 +4,17 @@ import 'package:kajian_sunnah/home/home_page/bloc/home_bloc.dart';
 import 'package:kajian_sunnah/service/ustadz_service.dart';
 // import 'package:kajian_sunnah/home/home_page/bookmark.dart';
 import 'package:kajian_sunnah/service/topik_service.dart';
+import 'package:kajian_sunnah/service/category_service.dart';
 
 class Home extends StatelessWidget {
   final TopikService topikService;
   final UstadzService ustadzService;
+  final CategoryService categoryService;
 
   Home({
     required this.topikService,
     required this.ustadzService,
+    required this.categoryService,
   });
 
   @override
@@ -20,7 +23,11 @@ class Home extends StatelessWidget {
       create: (context) => TopikBloc(topikService)..add(FetchTopik()),
       child: BlocProvider(
         create: (context) => UstadzBloc(ustadzService)..add(FetchUstadz()),
-        child: HomeView(),
+        child: BlocProvider(
+          create: (context) =>
+              CategoryBloc(categoryService)..add(FetchCategory()),
+          child: HomeView(),
+        ),
       ),
     );
   }
@@ -34,33 +41,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(250, 250, 250, 250),
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(250, 250, 250, 250),
-        leading: Icon(
-          Icons.grid_view,
-        ),
-        title: Text(
-          'Kajian Sunnah',
-          style: TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.w600,
-            fontFamily: 'ProzaLibre-Bold',
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.more_vert,
-              ),
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: Colors.white,
       body: ListView(
         children: [
           Column(
@@ -249,6 +230,17 @@ class HomeView extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey
+                                          .withOpacity(0.5), // Warna shadow
+                                      spreadRadius:
+                                          2, // Seberapa menyebar shadow
+                                      blurRadius: 5, // Tingkat blur shadow
+                                      offset:
+                                          Offset(0, 3), // Posisi shadow (x,y)
+                                    ),
+                                  ],
                                 ),
                                 child: Column(
                                   children: [
@@ -339,7 +331,7 @@ class HomeView extends StatelessWidget {
                     child: Text(
                       'Lihat Semua >',
                       style: TextStyle(
-                          fontSize: 14,
+                          fontSize: 11,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue),
                     ))
@@ -349,66 +341,147 @@ class HomeView extends StatelessWidget {
           SizedBox(
             height: 10,
           ),
-          SizedBox(
-            width: 600,
-            height: 250,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                SizedBox(width: 5),
-                Container(
-                  width: 180,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: 180,
-                        height: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.blue),
-                      ),
-                      Text(
-                        'Pengagungan terhadap ilmu',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text('deskripsi/kutipan'),
-                      Container(
-                        child: Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {}, icon: Icon(Icons.thumb_up)),
-                            Text('768'),
-                            IconButton(
-                                onPressed: () {}, icon: Icon(Icons.bolt)),
-                            Text('1K+'),
-                            IconButton(
-                              iconSize: 25,
-                              style: IconButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                                backgroundColor: Colors.grey[200],
-                                padding: EdgeInsets.all(3),
-                              ),
-                              onPressed: () {},
-                              icon: Icon(Icons.bookmark),
+          BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              if (state is CategoryInitial) {
+                context.read<CategoryBloc>().add(FetchCategory());
+                return Center(child: CircularProgressIndicator());
+              } else if (state is CategoryLoading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is CategoryLoaded) {
+                if (state.category.isEmpty) {
+                  print(
+                      'HomeView: state.category.length: ${state.category.length}');
+                  return Center(child: Text('Tidak ada topik'));
+                } else {
+                  return SizedBox(
+                      width: 600,
+                      height: 250,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.category.length,
+                        itemBuilder: (context, index) {
+                          final category = state.category[index];
+                          return Container(
+                            width: 180,
+                            height: 250,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey
+                                      .withOpacity(0.5), // Warna shadow
+                                  spreadRadius: 2, // Seberapa menyebar shadow
+                                  blurRadius: 5, // Tingkat blur shadow
+                                  offset: Offset(0, 3), // Posisi shadow (x,y)
+                                ),
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 5),
-              ],
-            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 180,
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Colors.blue),
+                                ),
+                                Text(
+                                  category.parent,
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text('Deskripsi/kutipan singkat'),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Container(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                                iconSize: 13,
+                                                color: Colors.blueAccent,
+                                                padding: EdgeInsets.all(3),
+                                                constraints: BoxConstraints(
+                                                  maxHeight: 30,
+                                                  maxWidth: 30,
+                                                ),
+                                                onPressed: () {},
+                                                icon: Icon(Icons.thumb_up)),
+                                            Text(
+                                              '768',
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.blueAccent),
+                                            ),
+                                            IconButton(
+                                                iconSize: 15,
+                                                padding: EdgeInsets.all(3),
+                                                constraints: BoxConstraints(
+                                                  maxHeight: 20,
+                                                  maxWidth: 20,
+                                                ),
+                                                onPressed: () {},
+                                                icon: Icon(Icons.bolt)),
+                                            Text(
+                                              '1K+',
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: IconButton(
+                                          iconSize: 18,
+                                          constraints: BoxConstraints(
+                                            maxHeight: 30,
+                                            maxWidth: 30,
+                                          ),
+                                          style: IconButton.styleFrom(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                            backgroundColor:
+                                                Colors.blueAccent[100],
+                                            padding: EdgeInsets.all(2),
+                                          ),
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.bookmark_outline,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ));
+                }
+              } else if (state is CategoryError) {
+                return Center(
+                    child: Text(state.message ??
+                        'Terjadi Kesalahan yang tidak diketahui'));
+              } else {
+                return Container();
+              }
+            },
+          ),
+          SizedBox(
+            height: 10,
           ),
         ],
       ),

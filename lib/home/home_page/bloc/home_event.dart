@@ -11,3 +11,9 @@ class FetchTopik extends TopikEvent {}
 sealed class UstadzEvent {}
 
 class FetchUstadz extends UstadzEvent {}
+
+//====================================BloC Category Event=======================
+
+sealed class CategoryEvent {}
+
+class FetchCategory extends CategoryEvent {}

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kajian_sunnah/home/auth_page/bloc/register_bloc.dart';
 import 'package:kajian_sunnah/home/auth_page/login.dart';
 import 'package:kajian_sunnah/service/auth_service.dart';
+import 'package:kajian_sunnah/widget/E_button.dart';
+import 'package:kajian_sunnah/widget/mod_textfield.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -101,177 +103,67 @@ class RegisterView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 5),
-                        Container(
-                          width: 340,
-                          height: 40,
-                          child: TextField(
+                        ModTextField(
                             controller: nameController,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Enter your Name'),
-                            showCursor: true,
-                          ),
-                        ),
+                            hintText: 'Enter your Name'),
                         SizedBox(height: 5),
-                        Container(
-                          width: 340,
-                          height: 40,
-                          child: TextField(
+                        ModTextField(
                             controller: emailController,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Enter your email'),
-                            showCursor: true,
-                          ),
-                        ),
+                            hintText: 'Enter your email'),
+
                         SizedBox(height: 5),
-                        Container(
-                          width: 340,
-                          height: 40,
-                          child: TextFormField(
+                        ModTextField(
                             controller: passwordController,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Enter your password'),
-                            showCursor: true,
-                          ),
-                        ),
+                            hintText: 'Enter your password'),
+
                         SizedBox(height: 5),
-                        Container(
-                          width: 340,
-                          height: 40,
-                          child: TextFormField(
-                              controller: password_confirmationController,
-                              textAlignVertical: TextAlignVertical.bottom,
-                              decoration: InputDecoration(
-                                  focusColor: Colors.white,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintText: 'Confirm your password'),
-                              showCursor: true,
-                              validator: (value) {
-                                if (passwordController.text !=
-                                    password_confirmationController.text) {
-                                  return "Passwords tidak sama";
-                                }
-                                if (value == null || value.isEmpty) {
-                                  return "Password tidak boleh kosong";
-                                }
-                                String pattern =
-                                    r'^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-                                RegExp regExp = RegExp(pattern);
-                                if (!regExp.hasMatch(value)) {
-                                  return "Password harus mengandung minimal 1 huruf kapital, 1 angka, dan 1 karakter spesial";
-                                }
-                                return null;
-                              }),
-                        ),
+                        ModTextField(
+                            controller: password_confirmationController,
+                            hintText: 'Confirm your password'),
+
+                        //       validator: (value) {
+                        //         if (passwordController.text !=
+                        //             password_confirmationController.text) {
+                        //           return "Passwords tidak sama";
+                        //         }
+                        //         if (value == null || value.isEmpty) {
+                        //           return "Password tidak boleh kosong";
+                        //         }
+                        //         String pattern =
+                        //             r'^(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+                        //         RegExp regExp = RegExp(pattern);
+                        //         if (!regExp.hasMatch(value)) {
+                        //           return "Password harus mengandung minimal 1 huruf kapital, 1 angka, dan 1 karakter spesial";
+                        //         }
+                        //         return null;
+                        //       }),
+                        // ),
                         SizedBox(height: 5),
-                        Container(
-                          width: 340,
-                          height: 40,
-                          child: TextField(
+                        ModTextField(
                             controller: phoneController,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Confirm your phone'),
-                            showCursor: true,
-                          ),
-                        ),
+                            hintText: 'Confirm your phone'),
+
                         SizedBox(height: 5),
-                        Container(
-                          width: 340,
-                          height: 40,
-                          child: TextField(
-                            controller: genderController,
-                            textAlignVertical: TextAlignVertical.bottom,
-                            decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Gender'),
-                            showCursor: true,
-                          ),
-                        ),
+                        ModTextField(
+                            controller: genderController, hintText: 'Gender'),
+
                         SizedBox(height: 5),
-                        Container(
-                          width: 340,
-                          height: 50,
-                          child: TextField(
-                            controller: addressController,
-                            textAlignVertical: TextAlignVertical.top,
-                            decoration: InputDecoration(
-                                focusColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
-                                  ),
-                                  borderSide: BorderSide.none,
-                                ),
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Address'),
-                            showCursor: true,
-                          ),
-                        ),
+                        ModTextField(
+                            controller: addressController, hintText: 'Address'),
+                        // Container(
+                        //   width: 340,
+                        //   height: 50,
+                        //   child: TextField(
+                        //     controller: addressController,
+                        //     textAlignVertical: TextAlignVertical.top,
+                        //   ),
+                        // ),
                         SizedBox(height: 5),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            fixedSize: Size(340, 40),
-                            backgroundColor: Colors.blue,
-                          ),
-                          onPressed: () {
+                        Ebutton(
+                          text: 'Register',
+                          txtcolor: Colors.white,
+                          btncolor: Colors.blue,
+                          onpress: () {
                             if (_formkey.currentState!.validate()) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('Processing Data')),
@@ -295,10 +187,6 @@ class RegisterView extends StatelessWidget {
                                   ),
                                 );
                           },
-                          child: Text(
-                            'Register',
-                            style: TextStyle(color: Colors.white),
-                          ),
                         ),
                         SizedBox(
                           height: 10,

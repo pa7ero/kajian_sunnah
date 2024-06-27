@@ -1,10 +1,15 @@
 import 'package:dio/dio.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final Dio _dio = Dio();
 
   Future<dynamic> login(String email, String password) async {
-    var headers = {'Accept': 'application/json'};
+    // final token = await SharedPreferences.getInstance();
+    var headers = {
+      'Accept': 'application/json',
+      // 'autorization': 'Bearer $token',
+    };
     var data = FormData.fromMap({'email': email, 'password': password});
 
     try {
@@ -17,6 +22,10 @@ class AuthRepository {
       );
 
       if (response.statusCode == 200) {
+        //make shared preferences seter
+        // final prefs = await SharedPreferences.getInstance();
+        // prefs.setString('token', response.data['token']);
+
         return response.data;
       } else if (response.statusCode == 400) {
         throw Exception('Email atau password salah');
@@ -28,6 +37,16 @@ class AuthRepository {
     }
   }
 
+  // Future<String> getToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString('token') ?? '';
+  // }
+
+  // Future<void> logout() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   prefs.remove('token');
+  // }
+
   Future<dynamic> register(
     String name,
     String email,
@@ -37,7 +56,9 @@ class AuthRepository {
     String phone,
     String gender,
   ) async {
-    var headers = {'Accept': 'application/json'};
+    var headers = {
+      'Accept': 'application/json',
+    };
     var data = FormData.fromMap({
       'name': name,
       'email': email,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kajian_sunnah/home/auth_page/login.dart';
 import 'package:kajian_sunnah/home/auth_page/register.dart';
+import 'package:kajian_sunnah/widget/E_button.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -61,13 +62,10 @@ class _SignupState extends State<Signup> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 40),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      fixedSize: Size(340, 40),
-                    ),
-                    onPressed: () {
+                  Ebutton(
+                    btncolor: Colors.white,
+                    text: ('Create an Account'),
+                    onpress: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -77,17 +75,13 @@ class _SignupState extends State<Signup> {
                         ),
                       );
                     },
-                    child: Text('Create an Account'),
                   ),
                   SizedBox(height: 15),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      fixedSize: Size(340, 40),
-                      backgroundColor: Colors.blue,
-                    ),
-                    onPressed: () {
+                  Ebutton(
+                    btncolor: Colors.blue,
+                    text: ('Login'),
+                    txtcolor: Colors.white,
+                    onpress: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -97,10 +91,6 @@ class _SignupState extends State<Signup> {
                         ),
                       );
                     },
-                    child: Text(
-                      'Login',
-                      style: TextStyle(color: Colors.white),
-                    ),
                   ),
                   SizedBox(height: 15),
                   Container(
